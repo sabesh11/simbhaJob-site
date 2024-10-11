@@ -6,10 +6,12 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
 
     const [jobDetails,setJobDetails]= useState([])
+    const Navigate = useNavigate();
     useEffect(()=>{
         getJobDetails();
       },[])
@@ -21,7 +23,13 @@ const Home = () => {
           console.log(jobDetails);
           
         })
+
+        
       }
+      const handleJobClick = (jobId) => {
+          
+        Navigate(`/job/${jobId}`);
+      };
   return (
     <div style={{backgroundColor:'rgb(247,246,241)'}}>
         <div>
@@ -68,7 +76,7 @@ const Home = () => {
      </div>
  </div>
  <div className="col-2">
- <Button color="black"  className='border border-black rounded-pill'>Apply</Button>
+ <Button color="black"  className='border border-black rounded-pill' onClick={() => handleJobClick(jobs._id)}>Apply</Button>
  </div>
  <hr className='mt-3'/>
 </div>
