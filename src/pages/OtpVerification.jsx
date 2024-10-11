@@ -1,5 +1,6 @@
 import { CircularProgress, InputAdornment, TextField } from '@mui/material';
-import signinimage from '../assets/My password-amico.png'
+import signinimage from '../assets/My password-amico.svg'
+import otpVefiryimg from '../assets/My password-pana.svg'
 import React, { useState } from 'react'
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import MailIcon from '@mui/icons-material/Mail';
@@ -105,12 +106,12 @@ const OtpVerification = () => {
         <div>
             <div className="container-fluid">
                 <div className="row ">
-                    <div className="col-md-6 align-self-center  p-2 d-md-block d-none" style={{ backgroundColor: '#0d6efd' }}>
+                    <div className="col-md-6 align-self-center  p-2 d-md-block d-none" style={{ backgroundColor: 'red' }}>
                         <img src={signinimage} height={570} />
                     </div>
                     {changeDiv == true ?
                         <div className="col-md-5 align-self-center  p-5 text-center" >
-                            <h1 style={{ color: '#0d6efd' }}>OTP
+                            <h1 style={{ color: 'red' }}>OTP
                                 Verification</h1>
                             <div className="text-center mb-3 d-md-none d-block">
                                 <img src={signinimage} alt="" height="160" width="160" />
@@ -142,7 +143,7 @@ const OtpVerification = () => {
 
 
                                 <div className="mt-4 ">
-                                    <button className="btn w-100 text-white" type="button" style={{ backgroundColor: '#0d6efd' }} onClick={getOTP} disabled={loading}> {loading ? (
+                                    <button className="btn w-100 text-white" type="button" style={{ backgroundColor: 'red' }} onClick={getOTP} disabled={loading}> {loading ? (
                                         <CircularProgress size={24} style={{ color: '#fff' }} />
                                     ) : (
                                         'Get OTP'
@@ -151,9 +152,9 @@ const OtpVerification = () => {
                             </form>
                         </div>
                         : <div className="col-md-5 align-self-center  p-5 text-center" >
-                            <h1 style={{ color: '#0d6efd' }}>Verification Code</h1>
+                            <h1 style={{ color: 'red' }}>Verification Code</h1>
                             <div className="text-center mb-3 d-md-none d-block">
-                                <img src={signinimage} alt="" height="160" width="160" />
+                                <img src={otpVefiryimg} alt="" height="160" width="160" />
                             </div>
                             <div className="mt-3 text-center">
                                
@@ -196,7 +197,7 @@ const OtpVerification = () => {
 
 
                                 <div className="mt-4 col-md-12  ">
-                                    <button className="btn w-75 text-white text-center" type="button" style={{ backgroundColor: '#0d6efd' }} onClick={timer === 0 ? resendOtp() : verifyOTP()} disabled={loading}> {loading ? (
+                                    <button className="btn w-75 text-white text-center" type="button" style={{ backgroundColor: 'red' }} onClick={timer === 0 ? resendOtp() : verifyOTP()} disabled={loading}> {loading ? (
                                         <CircularProgress size={24} style={{ color: '#fff' }} />
                                     ) : (
                                         'Submit OTP'
