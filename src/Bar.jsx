@@ -7,7 +7,7 @@ function Bar() {
   return (
     <Navbar expand="xs" style={{backgroundColor:'red',fontSize:'25px'}}>
       <Container>
-        <Navbar.Brand href="#home" style={{color:'white',fontSize:'25px'}}>Simbha-Solution</Navbar.Brand>
+        <Navbar.Brand href="#home" style={{color:'white',fontSize:'25px'}}>Simbha-Careers</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

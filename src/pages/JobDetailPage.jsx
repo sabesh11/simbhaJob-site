@@ -66,7 +66,7 @@ const JobDetailPage = () => {
                 <div>
                   <span>
                     {/* <BiGeoAltFill /> */} 
-                    <span className="fs-6" style={{ color: 'grey' }}>{job.jobLocation}</span>
+                    <span className="fs-6" style={{ color: 'grey' }}>📍{job.jobLocation}</span>
                   </span>
                 </div>
               )}
