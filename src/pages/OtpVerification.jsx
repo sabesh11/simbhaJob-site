@@ -8,6 +8,7 @@ import axios from 'axios';
 import OtpInput from 'react-otp-input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useForm } from "react-hook-form";
 
 const OtpVerification = () => {
 
@@ -15,8 +16,15 @@ const OtpVerification = () => {
     const [loading, setLoading] = useState(false);
     const [changeDiv, setChangeDiv] = useState(true);
     const [timer, setTimer] = useState(60);
-  const [intervalId, setIntervalId] = useState(null);
+    const [intervalId, setIntervalId] = useState(null);
     const [otp, setOTP] = useState()
+    const {
+        register,
+        handleSubmit,
+        trigger,
+        formState: { errors, isSubmitted },
+      } = useForm();
+
     const handleMail = (event) => {
         setmail(event.target.value)
         console.log(mail);
@@ -51,10 +59,11 @@ const OtpVerification = () => {
             })
     }
 
-    const getOTP = () => {
-        console.log(mail);
+    const getOTP = (mail) => {
+        console.log(mail.mail);
+        setmail(mail.mail)
         setLoading(true);
-        axios.post("http://localhost:5000/application/send-otp/" + mail)
+        axios.post("http://localhost:5000/application/send-otp/" + mail.mail)
             .then(response => {
                 toast.success("OTP send for your Mail", {
                     position: "top-center",
@@ -73,35 +82,42 @@ const OtpVerification = () => {
     }
 
     const startTimer = () => {
-        setTimer(60);  
-      
-        
-        const id = setInterval(() => {
-          setTimer((prevTimer) => {
-            if (prevTimer > 1) {
-              return prevTimer - 1;
-            } else {
-              clearInterval(id);
-              
-              return 0;
-            }
-          });
-        }, 1000);
-    
-        setIntervalId(id); 
-      };
+        setTimer(60);
 
-      const resendOtp = () =>{
+
+        const id = setInterval(() => {
+            setTimer((prevTimer) => {
+                if (prevTimer > 1) {
+                    return prevTimer - 1;
+                } else {
+                    clearInterval(id);
+
+                    return 0;
+                }
+            });
+        }, 1000);
+
+        setIntervalId(id);
+    };
+
+    const resendOtp = () => {
         toast.success("OTP resend to your Mail", {
             position: "top-center",
         });
         getOTP();
         startTimer();
-      }
+    }
 
-      const backToOTPsend = () =>{
+    const backToOTPsend = () => {
         setChangeDiv(true);
-      }
+    }
+
+    const handleClick = async () => {
+        const valid = await trigger(); // Manually trigger validation
+        if (valid) {
+          handleSubmit(getOTP)(); // Proceed with form submission if valid
+        }
+      };
     return (
         <div>
             <div className="container-fluid">
@@ -117,7 +133,7 @@ const OtpVerification = () => {
                                 <img src={signinimage} alt="" height="160" width="160" />
                             </div>
                             <div className="mt-3 text-center">
-                            <small className="text-muted">We will send you a 4-digit code</small>
+                                <small className="text-muted">We will send you a 4-digit code</small>
                             </div>
                             <form >
                                 <div className="mt-5">
@@ -126,6 +142,16 @@ const OtpVerification = () => {
                                         label="Enter your E-mail"
                                         fullWidth
                                         onChange={handleMail}
+                                        {...register("mail", {
+                                            required: "Email Address is required",
+                                            pattern: {
+                                              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                              message: "Invalid email address",
+                                            },
+                                            validate: (value) =>
+                                              value.includes('@gmail.com'),
+                                          })}
+                                        aria-invalid={errors.mail ? "true" : "false"} 
                                         slotProps={{
                                             input: {
                                                 startAdornment: (
@@ -137,14 +163,14 @@ const OtpVerification = () => {
                                         }}
                                         variant="outlined"
                                     />
-
+ {errors.mail && <p role="alert" style={{color:'red'}}>{errors.mail?.message}</p>}
 
                                 </div>
 
 
                                 <div className="mt-4 ">
-                                    <button className="btn w-100 text-white" type="button" style={{ backgroundColor: 'red' }} onClick={getOTP} disabled={loading}> {loading ? (
-                                        <CircularProgress size={24} style={{ color: '#fff' }} />
+                                    <button className="btn w-100 " type="button" style={{ borderColor: 'red',color:'red' }} onClick={handleClick} disabled={loading}> {loading ? (
+                                        <CircularProgress size={24} style={{ color: 'red' }} />
                                     ) : (
                                         'Get OTP'
                                     )}</button>
@@ -157,16 +183,16 @@ const OtpVerification = () => {
                                 <img src={otpVefiryimg} alt="" height="160" width="160" />
                             </div>
                             <div className="mt-3 text-center">
-                               
+
                                 {timer > 0 ? (
-        <p style={{ textAlign: 'center' }}>
-          Time remaining: <span style={{ color: 'red' }}>{timer} seconds</span>
-        </p>
-      ) : (
-        <p style={{ textAlign: 'center', color: 'red' }}>
-          OTP expired. Please request a new one.
-        </p>
-      )}
+                                    <p style={{ textAlign: 'center' }}>
+                                        Time remaining: <span style={{ color: 'red' }}>{timer} seconds</span>
+                                    </p>
+                                ) : (
+                                    <p style={{ textAlign: 'center', color: 'red' }}>
+                                        OTP expired. Please request a new one.
+                                    </p>
+                                )}
                             </div>
                             <form >
                                 <div className="mt-4">
@@ -197,14 +223,14 @@ const OtpVerification = () => {
 
 
                                 <div className="mt-4 col-md-12  ">
-                                    <button className="btn w-75 text-white text-center" type="button" style={{ backgroundColor: 'red' }} onClick={timer === 0 ? resendOtp() : verifyOTP()} disabled={loading}> {loading ? (
+                                    <button className="btn w-75  text-center" type="button" style={{ borderColor: 'red',color:'red' }} onClick={timer === 0 ? resendOtp : verifyOTP} disabled={loading}> {loading ? (
                                         <CircularProgress size={24} style={{ color: '#fff' }} />
                                     ) : (
-                                        'Submit OTP'
+                                     timer === 0 ? 'Resend OTP' : 'Submit OTP'
                                     )}</button>
-                                     <button  className="mt-3 w-100 text-white rounded-pill" style={{backgroundColor: 'red'}} onClick={backToOTPsend}>back</button>
+                                    <button className="mt-3 btn w-75  text-center" style={{ borderColor: 'blue',color:'blue' }} onClick={backToOTPsend}>back</button>
                                 </div>
-                               
+
                             </form>
                         </div>}
                 </div>

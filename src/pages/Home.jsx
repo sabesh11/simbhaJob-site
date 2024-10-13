@@ -16,6 +16,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 const Home = () => {
 
+  const [selectedJobTitle, setSelectedJobTitle] = useState('');
   const jobTitleList = [
     "Software Developer", "IT Support Specialist", "System Admin", "Network Engineer", "Database Administrator",
     "Database Administrator", "DevOps Engineer", "Cloud Architect", "Cybersecurity Analyst", "Technical Support Engineer",
@@ -24,6 +25,9 @@ const Home = () => {
     "Content Editor", "HR Manager", "YouTube Content Creator", "Telecaller", "Sales & Marketing", "Tutor"
   ];
 
+  const handleChange = (event) => {
+    setSelectedJobTitle(event.target.value); // Update the selected value
+  };
   const [jobDetails, setJobDetails] = useState([])
   const Navigate = useNavigate();
   useEffect(() => {
@@ -60,10 +64,13 @@ const Home = () => {
         <div className="row ps-0 pe-0 justify-content-center d-md-flex d-none mt-5">
           
           <div className="col-5 p-0 ps-0 pe-0">
-            <TextField
+          <TextField
               id="filled-search"
+
               fullWidth
               select
+              value={selectedJobTitle} // Set value from state
+      onChange={handleChange}
               name='jobTitle'
               InputProps={{
                 style: {
@@ -77,14 +84,17 @@ const Home = () => {
                   </InputAdornment>
                 ),
               }}
-              sx={{
-                '& fieldset': {
-                  borderRight: 'none',
-
-                },
+              displayEmpty // This allows placeholder to show in the input box
+              SelectProps={{
+                displayEmpty: true, // Enables displaying empty value as placeholder
               }}
+        
               variant="outlined"
+               placeholder="Select Job Title"
             >
+              <MenuItem value="" disabled>
+    Search Job Title
+  </MenuItem> 
               {jobTitleList.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
@@ -149,6 +159,8 @@ const Home = () => {
 
               fullWidth
               select
+              value={selectedJobTitle} // Set value from state
+      onChange={handleChange}
               name='jobTitle'
               InputProps={{
                 style: {
@@ -162,9 +174,17 @@ const Home = () => {
                   </InputAdornment>
                 ),
               }}
-
+              displayEmpty // This allows placeholder to show in the input box
+              SelectProps={{
+                displayEmpty: true, // Enables displaying empty value as placeholder
+              }}
+        
               variant="outlined"
+               placeholder="Select Job Title"
             >
+              <MenuItem value="" disabled>
+    Search Job Title
+  </MenuItem> 
               {jobTitleList.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
