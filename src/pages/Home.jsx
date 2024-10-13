@@ -234,22 +234,22 @@ const Home = () => {
         
         <hr className='mt-5' />
         {jobDetails.map((jobs, index) => (
-          <div className="row p-4 mt-4 shadow-2 m-1" key={jobs._id} style={{border:'2px solid #f4f4f4',borderRadius:'10px'}} onClick={() => handleJobClick(jobs._id)}>
+          <div className="row p-3 mt-4 shadow-2 m-1" key={jobs._id} style={{border:'2px solid #f4f4f4',borderRadius:'10px'}} onClick={() => handleJobClick(jobs._id)}>
             <div className="col-12 col-md-10" >
               <h3>{jobs.jobTitle}</h3>
-              <p className='p-0'>📍{jobs.jobLocation}</p>
+              <p className='p-0 text-muted' style={{fontSize:'13.5px'}}>📍{jobs.jobLocation}</p>
               <div>
-                <Badge pill className='p-1 border rounded' sx={{backgroundColor:'#d3ffcf'}}>
-                  <AccessTimeIcon sx={{color:'green'}}/> {jobs.jobType}
+                <Badge pill className='p-1 border rounded' sx={{backgroundColor:'#d3ffcf'}} style={{fontSize:'13.5px'}}>
+                  <AccessTimeIcon sx={{color:'green',width:'17px',}}/> &nbsp;{jobs.jobType}
                 </Badge>&nbsp;&nbsp;&nbsp;&nbsp;
                 
-                <Badge pill className='p-1 border rounded'  sx={{backgroundColor:'#d3ffcf'}}>
-                  <AttachMoneyIcon sx={{color:'green'}}/> {jobs.Salary }
+                <Badge pill className='p-1 border rounded'  sx={{backgroundColor:'#d3ffcf'}} style={{fontSize:'13.5px'}}>
+                  <AttachMoneyIcon sx={{color:'green',width:'17px'}}/>   {jobs.Salary }
                 </Badge>
               </div>
             </div>
             <div className="col-2 d-md-block d-none">
-              <Button sx={{color:'red'}} fullWidth className='border border-red rounded ' onClick={() => handleJobClick(jobs._id)}>Apply</Button>
+              <Button style={{color:'red',border:'thin solid red'}} fullWidth className='rounded ' onClick={() => handleJobClick(jobs._id)}>Apply</Button>
             </div>
             
           </div>
