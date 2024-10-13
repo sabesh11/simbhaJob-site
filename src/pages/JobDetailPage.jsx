@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { format } from 'date-fns';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'; // Import skeleton styles
 import Bar from '../Bar';
-// import { BiGeoAltFill, BiWallet } from 'react-icons/bi'; 
+
+
 
 const JobDetailPage = () => {
   const { jobId } = useParams(); 
-  const [job, setJob] = useState(null);  // Initially null, indicating no data
-  const [isLoading, setIsLoading] = useState(true); // To handle the loading state
+  const [job, setJob] = useState(null);  
+  localStorage.setItem("job", JSON.stringify(job));
+  const [isLoading, setIsLoading] = useState(true);
   const isMobile = window.innerWidth <= 768;
   const Navigate = useNavigate();
 
@@ -35,6 +37,7 @@ const JobDetailPage = () => {
   };
 
   return (
+    
     <div>
       <Bar/>
       <div className="jobcover" style={{ marginTop: '70px', marginBottom: '30px' }}>
@@ -112,6 +115,7 @@ const JobDetailPage = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 

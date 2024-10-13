@@ -1,5 +1,4 @@
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import './App.css'
 import Home from './pages/Home'
 import OtpVerification from './pages/OtpVerification'
 import JobDetailPage from './pages/JobDetailPage'

@@ -1,0 +1,85 @@
+.container-fluidd {
+    position: relative;
+    z-index: 1;
+    border-bottom: thin solid #666666;
+}
+
+.container-fluidd::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://media.istockphoto.com/id/1129644198/vector/recruitment-modern-line-design-style-vector-illustration.jpg?s=612x612&w=0&k=20&c=ZBHS-k5azwnflpGW5gRmseB4CxUOpUUmGA3I45mJk9E=');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.8) blur(5px) contrast(1.4);
+    z-index: -1;
+}
+
+.container-fluidd > * {
+    position: relative;
+    z-index: 2;
+}
+
+.box-area {
+    width: 100%;
+}
+
+.right-box {
+    padding: 40px 30px 40px 40px;
+}
+
+::placeholder {
+    font-size: 16px;
+}
+
+.rounded-4 {
+    border-radius: 20px;
+}
+
+.rounded-5 {
+    border-radius: 30px;
+}
+
+.dropzone {
+    border: 2px dashed #cccccc;
+    padding: 50px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.dropzone:hover {
+    background-color: #f1f1f1;
+}
+
+.upload-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #cccccc;
+}
+
+.dropzone-text {
+    color: #666666;
+    font-size: 1.2em;
+}
+
+@media only screen and (max-width: 768px) {
+    .box-area {
+        margin: 0 10px;
+    }
+
+    .left-box {
+        height: 100px;
+        overflow: hidden;
+    }
+
+    .right-box {
+        padding: 20px;
+    }
+}

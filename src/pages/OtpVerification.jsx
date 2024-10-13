@@ -9,6 +9,7 @@ import OtpInput from 'react-otp-input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 
 const OtpVerification = () => {
 
@@ -18,6 +19,7 @@ const OtpVerification = () => {
     const [timer, setTimer] = useState(60);
     const [intervalId, setIntervalId] = useState(null);
     const [otp, setOTP] = useState()
+    const Navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -37,6 +39,7 @@ const OtpVerification = () => {
 
     const verifyOTP = () => {
         setLoading(true);
+        localStorage.setItem("mail", mail);
         console.log(otp);
         const payload = {
             email: mail,
@@ -48,7 +51,7 @@ const OtpVerification = () => {
                     position: "top-center",
                 });
                 console.log(response.data);
-
+               Navigate('/Application')
 
                 setLoading(false);
 
