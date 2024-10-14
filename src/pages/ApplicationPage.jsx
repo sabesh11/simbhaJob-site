@@ -4,28 +4,36 @@ import Skeleton from 'react-loading-skeleton'; // Import Skeleton
 import 'react-loading-skeleton/dist/skeleton.css'; // Import Skeleton CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'; 
+import axios from 'axios';
+import imgg from '../assets/green_eco_loop_leaf_check_mark.jpg'
+import { useNavigate } from 'react-router-dom';
 
 const ApplicationPage = () => {
   const [eachApply, setEachApply] = useState({
     firstName: '',
     phoneNumber: '',
-    image: '',
-    resume: '',
+    email:''
   });
   const [selectedLocation, setSelectedLocation] = useState('');
   const [fileNames, setFileNames] = useState([]);
   const [image, setImage] = useState(null);
   const fileInput = useRef(null);
-  const [job, setJob] = useState(null); // Initially null to indicate loading
+  const [job, setJob] = useState(null); 
+  const [uploadResume, setUploadStatus] = useState();
+  const [uploadImage, setUploadImageStatus] = useState();
+  const [resumeDisabled,setResumeDisabled]=useState(false)
+  const [imageDisabled,setImageDisabled]=useState(false)
+  const [changeComp,setchangeComp]=useState(true)
+  const Navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate loading data from localStorage (you can replace it with actual API calls)
+    
     setTimeout(() => {
       const storedJobData = localStorage.getItem('job');
       if (storedJobData) {
-        setJob(JSON.parse(storedJobData)); // Set the job data after loading
+        setJob(JSON.parse(storedJobData)); 
       }
-    }, 2000); // Simulate a 2-second load time
+    }, 2000); 
   }, []);
 
   const handleChange = (e) => {
@@ -33,23 +41,84 @@ const ApplicationPage = () => {
     setEachApply(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleFileSelect = (e) => {
-    setFileNames([...e.target.files].map(file => file.name));
+  const handleFileSelect = async (e) => {
+    const file = e.target.files[0];
+    setFileNames([file.name]);
+    setEachApply(prevState => ({ ...prevState, resume: file }));
+    setResumeDisabled(true)
+
+    const formData = new FormData();
+    formData.append('file', file); // Append resume to formData
+
+    // API call immediately on file select
+    try {
+      const response = await axios.post('http://localhost:5000/application/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setUploadStatus(response.data);
+      console.log(uploadResume)
+    } catch (error) {
+     
+      console.error(error);
+    }
   };
 
-  const handleImageSelect = (e) => {
-    setImage(e.target.files[0]);
+  const handleImageSelect = async (e) => {
+    const selectedImage = e.target.files[0];
+    setImage(selectedImage);
+    setEachApply(prevState => ({ ...prevState, image: selectedImage }));
+    setImageDisabled(true)
+
+    const formData = new FormData();
+    formData.append('file', selectedImage); // Append image to formData
+
+    // API call immediately on image select
+    try {
+      const response = await axios.post('http://localhost:5000/application/image/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setUploadImageStatus(response.data);
+      console.log(uploadImage);
+      
+    } catch (error) {
+      
+      console.error(error);
+    }
   };
 
   const triggerFileSelect = () => {
     fileInput.current.click();
   };
 
-  const sendConfirmation = () => {
-    console.log('Form submitted!');
+  const sendConfirmation =  () => {
+  let payload={
+    job:job,
+    applicant:eachApply.firstName,
+    resume:uploadResume,
+    image:uploadImage,
+    mobilenumber:eachApply.phoneNumber,
+}
+console.log(payload);
+
+try {
+  const response =  axios.post('http://localhost:5000/application/addApplication',payload);
+  
+  console.log(response.data);
+  setchangeComp(false)
+  
+} catch (error) {
+  
+  console.error(error);
+}
   };
 
+  const backToHome = () =>{
+    Navigate('/')
+  }
+
   return (
+    <>
+    {changeComp == true ?
     <div>
       <div className="container-fluid container-fluidd">
         <div className="row justify-content-center p-3">
@@ -95,6 +164,7 @@ const ApplicationPage = () => {
                   type="text"
                   className="p-2 form-control form-control-lg fs-6"
                   value={eachApply.phoneNumber}
+                  onChange={handleChange}
                   name="phoneNumber"
                   placeholder="WhatsApp Number"
                 />
@@ -109,7 +179,7 @@ const ApplicationPage = () => {
                   onChange={handleChange}
                   className="p-2 form-control form-control-lg fs-6"
                   placeholder="Enter your mail"
-                  disabled
+                 
                 />
               </InputGroup>
 
@@ -137,6 +207,7 @@ const ApplicationPage = () => {
                     e.preventDefault();
                     handleFileSelect(e);
                   }}
+                  disabled={resumeDisabled}
                   onClick={triggerFileSelect}
                 >
                   <p className="dropzone-text">
@@ -165,13 +236,14 @@ const ApplicationPage = () => {
                   type="file"
                   accept=".png, .jpg, .jpeg"
                   onChange={handleImageSelect}
+                  disabled={imageDisabled}
                 />
               </InputGroup>
 
               <div className="mt-4 d-flex justify-content-center">
                 <Button
                   className="p-2 fs-5 rounded-pill"
-                  style={{ width: '100%', backgroundColor: 'red' }}
+                  style={{ width: '100%', backgroundColor: 'red',border:'none' }}
                   onClick={sendConfirmation}
                 >
                   Submit
@@ -181,7 +253,26 @@ const ApplicationPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div>:<div>
+      <div className="container ">
+        <div className="row mt-3 justify-content-center p-3">
+          <div className="col-6 mt-5">
+            <img src={imgg} alt="" className='img-fluid' />
+            </div>
+            <div className="row mt-1">
+            <p style={{fontSize:'20px',textAlign:'center'}}>your Application  has been submitted successfully</p>
+            </div>
+            <div className='row mt-5'>
+            <Button
+                  className="p-1 fs-5 rounded-pill"
+                  style={{ width: '100%', backgroundColor: 'red',border:'none' }}
+                 onClick={backToHome}
+                >
+                  Done
+                </Button>
+            </div>
+           </div></div></div>}
+    </>
   );
 };
 
