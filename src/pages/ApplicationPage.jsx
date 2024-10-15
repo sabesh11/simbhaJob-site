@@ -97,6 +97,7 @@ const ApplicationPage = () => {
     resume:uploadResume,
     image:uploadImage,
     mobilenumber:eachApply.phoneNumber,
+    email:eachApply.email,
 }
 console.log(payload);
 
