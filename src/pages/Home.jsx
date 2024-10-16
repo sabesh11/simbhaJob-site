@@ -12,7 +12,7 @@ import Bar from '../Bar';
 import { InputAdornment, MenuItem, TextField } from '@mui/material';
 import  {Badge}  from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'; 
-
+import moment from 'moment';
 
 const Home = () => {
 
@@ -48,6 +48,11 @@ const Home = () => {
 
     Navigate(`/job/${jobId}`);
   };
+
+  const dateFormat=(date) =>{
+    return moment(new Date(date), "YYYYMMDD").fromNow();
+  
+  }
   return (
     <div >
       <div>
@@ -109,8 +114,8 @@ const Home = () => {
               id="outlined-basic-right"
 
               fullWidth
-              select
-              placeholder='search JobTitle'
+              
+              placeholder='Enter location'
               name='jobTitle'
               InputProps={{
                 style: {
@@ -143,11 +148,7 @@ const Home = () => {
               }}
               variant="outlined"
             >
-              {jobTitleList.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
+              
             </TextField>
           </div>
         </div>
@@ -199,9 +200,9 @@ const Home = () => {
              
 
               fullWidth
-              select
-              placeholder='search JobTitle'
-              name='jobTitle'
+             
+              placeholder='Enter location'
+              
               InputProps={{
 
                 startAdornment: (
@@ -214,11 +215,7 @@ const Home = () => {
 
               variant="outlined"
             >
-              {jobTitleList.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
+              
             </TextField>
           </div>
           <div className="col-11 mt-2">
@@ -246,6 +243,10 @@ const Home = () => {
                 <Badge pill className='p-1 border rounded'  sx={{backgroundColor:'#d3ffcf'}} style={{fontSize:'13.5px'}}>
                   <AttachMoneyIcon sx={{color:'green',width:'17px'}}/>   {jobs.Salary }
                 </Badge>
+              </div>
+              <div className='mt-2 text-muted'>
+                posted&nbsp;{dateFormat(
+jobs.updatedAt)} 
               </div>
             </div>
             <div className="col-2 d-md-block d-none">
