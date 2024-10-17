@@ -8,7 +8,7 @@ function Bar() {
     <Navbar expand="xs" style={{backgroundColor:'red',fontSize:'25px'}}>
       <Container>
         <Navbar.Brand href="#home" style={{color:'white',fontSize:'25px'}}>Simbha-Careers</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{fill:'white'}} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
