@@ -104,10 +104,11 @@ const JobDetailPage = () => {
           )}
         </div>
         
-        <div className="row justify-content-around d-block d-md-none applycard mt-5">
-          <div className="col-md-10 mt-3 mb-5">
-            <Button className="appbtncard  rounded-pill" style={{ color: 'white', width: '100%', padding: '10px', position: 'sticky' , left: '0',
-        bottom: '0',
+        <div className="row justify-content-center d-block d-md-none applycard mt-5">
+          <div className="col-md-10 mt-3 mb-5 text-center">
+            <Button className="appbtncard  rounded-pill" style={{ color: 'white', width: '90%', padding: '10px', position: 'fixed' , left: '17px',
+        bottom:'17px',
+        
         right: '0', backgroundColor:'red',border:'none'}} onClick={applyTo} >
                Apply 
             </Button>
